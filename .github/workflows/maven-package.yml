@@ -65,3 +65,5 @@ jobs:
       # Create a pull request using the GitHub REST API
       - name: Create Pull Request
         run: ./scripts/create-pull-request.sh
+        env:
+          WORKFLOW_PAT: ${{ secrets.WORKFLOW_PAT }}
