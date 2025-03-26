@@ -1,0 +1,67 @@
+name: Maven Package
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'division/commit-hash.txt' # Ignore pushes that only modify this file
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.WORKFLOW_PAT }}
+          fetch-depth: 0
+
+      # Set executable permissions for scripts
+      - name: Set executable permissions
+        run: chmod +x scripts/*.sh
+
+      # Check for new commits
+      - name: Check for new commits
+        run: ./scripts/check-commits.sh
+
+      # Set up JDK
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # Clean the project
+      - name: Maven Clean
+        run: mvn clean
+        working-directory: division
+
+      # Compile the project
+      - name: Maven Compile
+        run: mvn compile
+        working-directory: division
+
+      # Run tests
+      - name: Maven Test
+        run: mvn test
+        working-directory: division
+
+      # Package the project
+      - name: Maven Package
+        run: mvn package
+        working-directory: division
+
+      # Store commit hash in a file
+      - name: Save Commit Hash
+        run: ./scripts/save-commit-hash.sh
+
+      # Create a new branch for the commit
+      - name: Create Branch
+        run: ./scripts/create-branch.sh
+
+      # Create a pull request using the GitHub REST API
+      - name: Create Pull Request
+        run: ./scripts/create-pull-request.sh
