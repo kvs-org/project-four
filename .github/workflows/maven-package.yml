@@ -6,6 +6,7 @@ on:
       - main
     paths-ignore:
       - 'division/commit-hash.txt' # Ignore pushes that only modify this file
+  workflow_dispatch: # Allow manual triggering by the orchestrator workflow
 
 jobs:
   build:
