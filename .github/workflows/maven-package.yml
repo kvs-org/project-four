@@ -24,9 +24,9 @@ jobs:
       - name: Set executable permissions
         run: chmod +x scripts/*.sh
 
-      # Check for new commits
-      - name: Check for new commits
-        run: ./scripts/check-commits.sh
+      # # Check for new commits
+      # - name: Check for new commits
+      #   run: ./scripts/check-commits.sh
 
       # Set up JDK
       - name: Set up JDK 17
@@ -55,16 +55,16 @@ jobs:
         run: mvn package
         working-directory: division
 
-      # Store commit hash in a file
-      - name: Save Commit Hash
-        run: ./scripts/save-commit-hash.sh
+      # # Store commit hash in a file
+      # - name: Save Commit Hash
+      #   run: ./scripts/save-commit-hash.sh
 
-      # Create a new branch for the commit
-      - name: Create Branch
-        run: ./scripts/create-branch.sh
+      # # Create a new branch for the commit
+      # - name: Create Branch
+      #   run: ./scripts/create-branch.sh
 
-      # Create a pull request using the GitHub REST API
-      - name: Create Pull Request
-        run: ./scripts/create-pull-request.sh
-        env:
-          WORKFLOW_PAT: ${{ secrets.WORKFLOW_PAT }}
+      # # Create a pull request using the GitHub REST API
+      # - name: Create Pull Request
+      #   run: ./scripts/create-pull-request.sh
+      #   env:
+      #     WORKFLOW_PAT: ${{ secrets.WORKFLOW_PAT }}
